@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "start": "node server/index.js",
-    "build": "npm --prefix ../zhirbox-admin/admin install && npm --prefix ../zhirbox-admin/admin run build"
+    "start": "node server/index.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -55,7 +55,7 @@ app.use('/api/config', require('./routes/config'));
 app.use(express.static(path.join(__dirname, '..', '..', 'BOX')));
 
 // ---- 静态文件：Vue 构建产物 ----
-const adminDist = path.join(__dirname, '..', '..', 'zhirbox-admin', 'admin', 'dist');
+const adminDist = path.join(__dirname, '..', 'admin-dist');
 app.use('/admin', express.static(adminDist));
 app.get('/admin/{*path}', (req, res) => {
   res.sendFile(path.join(adminDist, 'index.html'));
