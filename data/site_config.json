@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "config_key": "site_name",
+    "config_value": "纸盒人"
+  },
+  {
+    "id": 2,
+    "config_key": "hero_title",
+    "config_value": "你好，我是纸盒人"
+  },
+  {
+    "id": 3,
+    "config_key": "hero_subtitle",
+    "config_value": "用代码解决实际问题，探索 AI 与工具的可能性"
+  },
+  {
+    "id": 4,
+    "config_key": "hero_badge",
+    "config_value": "前端开发者 / AI 工具探索者"
+  },
+  {
+    "id": 5,
+    "config_key": "footer_text",
+    "config_value": "Built with ❤ and ☕"
+  },
+  {
+    "id": 6,
+    "config_key": "contact_email",
+    "config_value": "whj1008611@gmail.com"
+  },
+  {
+    "id": 7,
+    "config_key": "contact_steam",
+    "config_value": "https://steamcommunity.com/profiles/76561198965005221/"
+  }
+]
