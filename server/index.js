@@ -9,6 +9,12 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+// 等待数据库初始化完成再启动
+db.ready.catch(err => {
+  console.error('❌ 数据库初始化失败:', err);
+  process.exit(1);
+});
+
 // ---- 公开 API（无需登录） ----
 app.get('/api/public/site-config', (req, res) => {
   const rows = db.getAll('site_config', 'id');
@@ -49,13 +55,15 @@ app.use('/api/config', require('./routes/config'));
 app.use(express.static(path.join(__dirname, '..', '..', 'BOX')));
 
 // ---- 静态文件：Vue 构建产物 ----
-const adminDist = path.join(__dirname, '..', 'admin', 'dist');
+const adminDist = path.join(__dirname, '..', '..', 'zhirbox-admin', 'admin', 'dist');
 app.use('/admin', express.static(adminDist));
 app.get('/admin/{*path}', (req, res) => {
   res.sendFile(path.join(adminDist, 'index.html'));
 });
 
-app.listen(PORT, () => {
-  console.log(`✓ 后台服务运行在 http://localhost:${PORT}`);
-  console.log(`  管理面板 → http://localhost:${PORT}/admin`);
+db.ready.then(() => {
+  app.listen(PORT, () => {
+    console.log(`✓ 后台服务运行在 http://localhost:${PORT}`);
+    console.log(`  管理面板 → http://localhost:${PORT}/admin`);
+  });
 });

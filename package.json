@@ -1,11 +1,13 @@
 {
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "build": "npm --prefix ../zhirbox-admin/admin install && npm --prefix ../zhirbox-admin/admin run build"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "sql.js": "^1.14.1"
   }
 }
