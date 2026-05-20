@@ -43,6 +43,11 @@ app.get('/api/public/tools', (req, res) => {
   res.json(rows);
 });
 
+app.get('/api/public/tech-overview', (req, res) => {
+  const rows = db.getAll('project_tech_sections');
+  res.json(rows);
+});
+
 // ---- 管理 API ----
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/skills', require('./routes/skills'));
@@ -50,6 +55,7 @@ app.use('/api/projects', require('./routes/projects'));
 app.use('/api/work', require('./routes/work'));
 app.use('/api/tools', require('./routes/tools'));
 app.use('/api/config', require('./routes/config'));
+app.use('/api/tech-overview', require('./routes/tech-overview'));
 
 // ---- 静态文件：网站页面（BOX 目录） ----
 app.use(express.static(path.join(__dirname, '..', '..', 'BOX')));

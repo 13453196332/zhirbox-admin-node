@@ -80,6 +80,14 @@ const ready = (async function init() {
     sort_order INTEGER DEFAULT 0
   )`);
 
+  db.run(`CREATE TABLE IF NOT EXISTS project_tech_sections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    section_key TEXT NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    sort_order INTEGER DEFAULT 0
+  )`);
+
   // ---- 种子数据（库为空时写入） ----
   const row = db.exec('SELECT COUNT(*) AS c FROM users');
   if (!row.length || !row[0].values.length || row[0].values[0][0] === 0) {
@@ -135,6 +143,12 @@ const ready = (async function init() {
     insTool.run(['Excel 数据合并', '将源文件数据按列映射合并到目标文件，快速生成新 Excel 报表。', 'Excel.html', 'file-excel', 1]);
     insTool.run(['今天吃什么', '选择困难症的救星！随机推荐美食，告别「今天吃啥」的世纪难题。', 'FortuneTeller.html', 'utensils', 2]);
     insTool.run(['Web 3D 演示', '基于 Three.js 的地球 3D 交互展示，探索 Web 图形能力的边界。', 'new3D.html', 'globe', 3]);
+
+    // 项目技术介绍
+    const insTech = db.prepare('INSERT INTO project_tech_sections (section_key, title, content, sort_order) VALUES (?, ?, ?, ?)');
+    insTech.run(['frontend', '前端页面展示', '<p>本站前端页面采用纯 <strong>HTML5 + CSS3 + JavaScript</strong> 构建，未使用任何前端框架，追求极致的轻量与可控性。</p><p>核心设计语言为深色赛博科技风格，基于 CSS 变量实现完整的设计令牌系统（Design Tokens），支持一键切换亮/暗主题。</p><p>关键特性：</p><ul><li><strong>毛玻璃导航栏</strong> — 固定定位 + backdrop-filter 毛玻璃效果，滚动时增强不透明度</li><li><strong>卡片式布局</strong> — 统一的 glass-card 组件系统，悬浮升高 + 发光描边</li><li><strong>响应式设计</strong> — 768px 断点切换移动端抽屉菜单，适配全设备</li><li><strong>Intersection Observer 动画</strong> — 滚动到视口时触发 fade-in-up 入场动画</li><li><strong>API 联动</strong> — 所有数据（工具卡片、技能、作品等）通过 fetch 从后端动态加载</li></ul>', 0]);
+    insTech.run(['admin', '后台管理系统', '<p>后台管理系统基于 <strong>Vue 3 + Vite + Element Plus</strong> 构建，采用 Composition API + <code>script setup</code> 语法。</p><p>技术要点：</p><ul><li><strong>路由</strong> — Vue Router hash 模式，路由守卫自动拦截未登录请求，跳转至登录页</li><li><strong>状态管理</strong> — 无需 Pinia/Vuex，工具卡片、项目等数据通过 API 直接获取</li><li><strong>HTTP 客户端</strong> — Axios 封装，请求拦截自动注入 JWT Token，响应拦截 401 自动跳登录</li><li><strong>布局</strong> — 侧边栏导航 + 顶部栏布局，支持深色/亮色主题切换，主题偏好持久化到 localStorage</li><li><strong>构建部署</strong> — Vite 构建产物输出到 admin-dist 目录，由 Node.js 服务端作为静态文件托管</li></ul>', 1]);
+    insTech.run(['backend', '后端 Node.js 服务', '<p>后端基于 <strong>Express 5 + SQLite (sql.js)</strong> 构建，零原生依赖，全平台可部署。</p><p>架构亮点：</p><ul><li><strong>数据库</strong> — 使用 sql.js（WebAssembly 版 SQLite），纯 JS 实现，无需安装任何原生模块</li><li><strong>认证</strong> — JWT Token 鉴权，bcryptjs 密码哈希，登录接口返回 token 并存储在 localStorage</li><li><strong>路由分层</strong> — 公共 API（<code>/api/public/*</code>）无需认证，管理 API（<code>/api/auth/*</code>）需 JWT 中间件保护</li><li><strong>静态托管</strong> — 同时托管前端网站（BOX/ 目录）和管理后台（admin-dist/ 目录）</li><li><strong>数据持久化</strong> — 每次写操作自动保存到 <code>data/app.db</code> 文件</li><li><strong>部署</strong> — 单文件启动，适合 Railway / Render / VPS 等云平台一键部署</li></ul>', 2]);
 
     save();
     console.log('✓ 数据库已初始化（含种子数据）');
